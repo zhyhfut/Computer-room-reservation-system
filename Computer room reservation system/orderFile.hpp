@@ -1,10 +1,11 @@
 #pragma once
 #include<iostream>
-using namespace std;
 #include "globalFile.hpp"
 #include<fstream>
 #include<map>
 #include<string>
+using namespace std;
+
 
 class OrderFile
 {
@@ -22,3 +23,6 @@ public:
 	//记录所有预约信息的容器 key:记录条数，value:具体记录键值对信息
 	map<int, map<string, string>> m_orderData;
 };
+
+//显示所有预约
+void dispAllOrder();

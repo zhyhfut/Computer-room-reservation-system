@@ -9,247 +9,218 @@ using namespace std;
 #include "manager.hpp"
 #include "computerroom.hpp"
 
+//*************使用函数模板实现通用的用户登录功能*************
+////使用函数模板来创建一个通用的用户验证函数
+//template <typename T>
+//void userLogin(const string& fileName, const string& prompt)
+//{
+//	cout << prompt;
+//	int id;
+//	cin >> id;
+//
+//	cout << "请输入姓名: ";
+//	string name;
+//	cin >> name;
+//
+//	cout << "请输入密码: ";
+//	string pwd;
+//	cin >> pwd;
+//
+//	ifstream ifs;
+//	ifs.open(fileName, ios::in);
+//	//判断文件是否存在
+//	if (!ifs.is_open())
+//	{
+//		cout << "文件不存在！" << endl;
+//		ifs.close();
+//		return;
+//	}
+//	//准备接收用户信息
+//	int fId = 0;
+//	string fName;
+//	string fPwd;
+//	bool loginSuccess = false;
+//	while (ifs >> fId >> fName >> fPwd)
+//	{
+//		if (fId == id && fName == name && fPwd == pwd)
+//		{
+//			cout << "登录成功！" << endl;
+//			system("pause");
+//			system("cls");//清屏
+//
+//			Identity* person = new T(id, name, pwd); //创建对应身份的对象
+//
+//			//进入对应身份的子菜单
+//			if(typeid(T) == typeid(Student))
+//			{
+//				studentMenu(person);
+//			}
+//			else if (typeid(T) == typeid(Teacher))
+//			{
+//				teacherMenu(person);
+//			}
+//			delete person; //释放内存
+//			loginSuccess = true;
+//			break;
+//		}
+//	}
+//	if (!loginSuccess)
+//	{
+//		cout << "登录失败！" << endl;
+//		system("pause");//按任意键
+//		system("cls");//清屏
+//	}
+//	ifs.close(); //关闭文件
+//}
+//
+//void managerLogin(const string& fileName)
+//{
+//	cout << "请输入姓名: ";
+//	string name;
+//	cin >> name;
+//
+//	cout << "请输入密码: ";
+//	string pwd;
+//	cin >> pwd;
+//
+//	ifstream ifs;
+//	ifs.open(fileName, ios::in);
+//	// ... 后续逻辑不变 ...
+//	string fName, fPwd;
+//	while (ifs >> fName && ifs >> fPwd)
+//	{
+//		if (fName == name && fPwd == pwd)
+//		{
+//			cout << "管理员验证登录成功！" << endl;
+//			Identity* person = new Manager(name, pwd);
+//			system("pause");
+//			system("cls");
+//			managerMenu(*person); // 管理员菜单的参数是引用，特殊处理
+//			delete person;
+//			ifs.close();
+//			return;
+//		}
+//	}
+//	cout << "登录失败！" << endl;
+//	system("pause");//按任意键
+//	system("cls");//清屏
+//	ifs.close();
+//	
+//}
 
-//进入教师子菜单界面
-void teacherMenu(Identity*& teacher)
-{
-	while (1)
-	{
-		//调用教师子菜单
-		teacher->openMenu();
-		//将父类指针转为子类指针，调用子类里其他接口
-		Teacher* tea = (Teacher*)teacher;
-		int select = 0; //选择
-		cin >> select;
-		if (select == 1)//查看所有预约
-		{
-			tea->showAllOrder();
-		}
-		else if (select == 2)//审核预约
-		{
-			tea->checkOrder();
-		}
-		else
-		{
-			cout << "注销成功" << endl;
-			system("pause");
-			system("cls");
-			return; //退出教师子菜单
-		}
-		
-	}
-}
-
-//进入学生子菜单界面
-void studentMenu(Identity*& student)
-{
-	while (1)
-	{
-		//调用用学生子菜单
-		student->openMenu();
-
-		//将父类指针转为子类指针，调用子类里其他接口
-		Student* stu = (Student*)student;
-
-		int select = 0;
-		cin >> select;
-		if (select == 1)//申请预约
-		{
-			stu->applyOrder();
-		}
-		else if (select == 2)//查看我的预约
-		{
-			stu->showMyOrder();
-		}
-		else if (select == 3)//查看所有预约
-		{
-			stu->showAllOrder();
-		}
-		else if (select == 4)//取消预约
-		{
-			stu->cancelOrder();
-		}
-		else
-		{
-			cout << "注销成功" << endl;
-			system("pause");
-			system("cls");
-			//delete student; //释放内存
-			return; //退出学生子菜单
-		}
-	}
-}
-
-//进入管理员子菜单界面
-void managerMenu(Identity& manager)
-{
-	while (1)
-	{
-		//调用管理员子菜单
-		manager.openMenu();
-
-		//将父类指针转为子类指针，调用子类里其他接口
-		Manager* man = (Manager*)&manager;
-
-		int select = 0; //选择
-		cin >> select;
-		switch (select)
-		{
-			case 1://添加账号
-			{
-				//cout << "添加账号" << endl;
-				man->addPerson();
-				break;
-			}
-			case 2://查看账号
-			{
-				//cout << "查看账号" << endl;
-				man->showPerson();
-				break;
-			}
-			case 3://查看机房
-			{
-				//cout << "查看机房" << endl;
-				man->showComputer();
-				break;
-			}
-			case 4://清空预约
-			{
-				//cout << "清空预约" << endl;
-				man->cleanFile();
-				break;
-			}
-
-			default:
-			{
-				//delete& manager;
-				cout << "注销成功" << endl;
-				system("pause");
-				system("cls");
-				//break;
-				return; //退出管理员子菜单
-			}
-
-		}
-	}
-}
 
 //登录功能  操作文件名、操作身份信息
 void LogIn(string fileName, int type)
 {
-	//父类指针，用于指向子类对象
+	//***************通用的用户验证函数***************
+	/*if (type == 1) {
+		userLogin<Student>(fileName, "请输入学号: ");
+	}
+	else if (type == 2) {
+		userLogin<Teacher>(fileName, "请输入工号: ");
+	}
+	else if (type == 3) {
+		managerLogin(fileName);
+	}*/
+
+
+	//封装为成员函数，利用多态实现身份验证
 	Identity* person = NULL;
 
-	//读文件
 	ifstream ifs;
 	ifs.open(fileName, ios::in);
 
-	//判断文件是否存在
-	if(!ifs.is_open())
+	if (!ifs.is_open())
 	{
 		cout << "文件不存在！" << endl;
 		ifs.close();
 		return;
 	}
 
-	//准备接收用户信息	
 	int id = 0;
 	string name;
 	string pwd;
 
-	//判断身份
-	if(type == 1) //学生身份
+	if (type == 1) // 学生
 	{
 		cout << "请输入学号: ";
 		cin >> id;
-
 	}
-	else if(type == 2) //教师身份
+	else if (type == 2) // 教师
 	{
 		cout << "请输入工号: ";
 		cin >> id;
-
 	}
-	cout << "请输入姓名: " << endl;
+
+	cout << "请输入姓名: ";
 	cin >> name;
-	cout << "请输入密码: " << endl;
+	cout << "请输入密码: ";
 	cin >> pwd;
 
-	if (type == 1)//学生身份验证
+	bool loginSuccess = false;
+
+	if (type == 1) // 学生身份验证
 	{
-		//学生身份验证
-		int fId;//文件中学号
-		string fName;//文件中姓名
-		string fPwd;//文件中密码
-		while(ifs>>fId && ifs >> fName && ifs >> fPwd)
+		int fId;
+		string fName, fPwd;
+		while (ifs >> fId >> fName >> fPwd)
 		{
-			//与用户输入的信息做对比
-			if(fId == id && fName == name && fPwd == pwd)
+			if (fId == id && fName == name && fPwd == pwd)
 			{
-				cout << "学生验证登录成功！" << endl;
-				//创建学生对象
 				person = new Student(id, name, pwd);
-				
-				system("pause");
-				system("cls");//清屏
-				//进入学生子菜单
-				studentMenu(person);
-				delete person;
-				return;
+				loginSuccess = true;
+				break;
 			}
 		}
 	}
-	else if (type == 2)
+	else if (type == 2) // 教师身份验证
 	{
-		//教师身份验证
-		int fId;//文件中工号
-		string fName;//文件中姓名
-		string fPwd;//文件中密码
-		while(ifs >> fId && ifs >> fName && ifs >> fPwd)
+		int fId;
+		string fName, fPwd;
+		while (ifs >> fId >> fName >> fPwd)
 		{
-			//与用户输入的信息做对比
-			if(fId == id && fName == name && fPwd == pwd)//由于用空格分隔，所以会分成三条信息
+			if (fId == id && fName == name && fPwd == pwd)
 			{
-				cout << "教师验证登录成功！" << endl;
-				//创建教师对象
 				person = new Teacher(id, name, pwd);
-				
-				system("pause");
-				system("cls");//清屏
-				//进入教师子菜单
-				teacherMenu(person);
-				delete person;
-				return;
+				loginSuccess = true;
+				break;
 			}
 		}
 	}
-	else if (type == 3)
+	else if (type == 3) // 管理员身份验证
 	{
-		//管理员身份验证
-		string fName;//文件中姓名
-		string fPwd;//文件中密码
-		while(ifs >> fName && ifs >> fPwd)
+		string fName, fPwd;
+		while (ifs >> fName >> fPwd)
 		{
-			//与用户输入的信息做对比
-			if(fName == name && fPwd == pwd)
+			if (fName == name && fPwd == pwd)
 			{
-				cout << "管理员验证登录成功！" << endl;
-				//创建管理员对象
 				person = new Manager(name, pwd);
-				
-				system("pause");
-				system("cls");//清屏
-				//进入管理员子菜单
-				managerMenu(*person);
-				delete person;
-				return;
+				loginSuccess = true;
+				break;
 			}
 		}
 	}
-	cout << "登录失败！" << endl;
-	system("pause");//按任意键
-	system("cls");//清屏
-	return;
+
+	if (loginSuccess)
+	{
+		cout << "验证登录成功！" << endl;
+		system("pause");
+		system("cls");
+
+		// 关键！无论 person 指向哪个子类对象，
+		// 这里都会通过多态自动调用相应子类的 processMenu() 函数。
+		person->processMenu();
+
+		delete person; // 菜单处理结束后，释放内存
+	}
+	else
+	{
+		cout << "登录失败！" << endl;
+		system("pause");
+		system("cls");
+	}
+	ifs.close();
+
 }
 
 
@@ -304,10 +275,5 @@ int main()
 		}
 
 	}
-	
-
-
-
-	system("pause");
 	return 0;
 }

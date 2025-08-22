@@ -38,6 +38,46 @@ void Manager::openMenu()
 	cout << "请选择您的操作： " << endl;
 }
 
+void Manager::processMenu()
+{
+	while (1)
+	{
+		this->openMenu(); //显示菜单
+		int select = 0; //选择
+		cin >> select; //接受选择
+		switch (select)
+		{
+			case 1: //添加账号
+			{
+				this->addPerson();
+				break;
+			}
+			case 2: //查看账号
+			{
+				this->showPerson();
+				break;
+			}
+			case 3: //查看机房
+			{
+				this->showComputer();
+				break;
+			}
+			case 4: //清空预约
+			{
+				this->cleanFile();
+				break;
+			}
+			default: //注销登录
+			{
+				cout << "注销成功" << endl;
+				system("pause");
+				system("cls");
+				return; //退出管理员子菜单
+			}
+		}
+	}
+}
+
 //添加账号  
 void Manager::addPerson()
 {
@@ -190,7 +230,7 @@ void Manager::initVector()
 		vStu.push_back(stu); //将学生信息添加到容器中
 	}
 
-	cout << "当前学生数量：" << vStu.size() << endl;
+	//cout << "当前学生数量：" << vStu.size() << endl;
 	ifs.close(); //关闭文件
 
 	//读取信息老师
@@ -200,7 +240,7 @@ void Manager::initVector()
 	{
 		vTea.push_back(t); //将教师信息添加到容器中
 	}
-	cout << "当前教师数量：" << vTea.size() << endl;
+	//cout << "当前教师数量：" << vTea.size() << endl;
 	ifs.close(); //关闭文件
 
 	//初始化机房信息
@@ -210,7 +250,7 @@ void Manager::initVector()
 	{
 		vCom.push_back(r); //将机房信息添加到容器中
 	}
-	cout << "当前机房数量：" << vCom.size() << endl;
+	//cout << "当前机房数量：" << vCom.size() << endl;
 	ifs.close(); //关闭文件
 	
 }

@@ -14,8 +14,10 @@ class Identity
 	friend void printStudent(Student& s);
 	friend void printTeacher(Teacher& t);
 public:
+	virtual void processMenu() = 0; //纯虚函数，用于显示并处理各自的菜单界面，将包含原有逻辑中完整的while循环和逻辑
 
-	virtual void openMenu() = 0; //纯虚函数，打开身份对应的菜单
+protected:
+	virtual void openMenu() = 0; //用于单纯显示菜单文本，只需要子类自己调用
 
 private:
 	string m_name;

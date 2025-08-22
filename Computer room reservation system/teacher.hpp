@@ -19,6 +19,7 @@ public:
 
 	//菜单界面
 	virtual void openMenu(); //继承父类，在子类中实现
+	virtual void processMenu();
 
 	//查看所有预约
 	void showAllOrder();

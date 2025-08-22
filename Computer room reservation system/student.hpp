@@ -21,6 +21,7 @@ public:
 	Student(int id, string name, string pwd);
 	//菜单界面
 	virtual void openMenu();//继承父类，在子类中实现
+	virtual void processMenu();
 
 	//申请预约
 	void applyOrder();

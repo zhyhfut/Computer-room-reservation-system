@@ -23,6 +23,7 @@ public:
 
 	//—°‘Ò≤Àµ•
 	virtual void openMenu();
+	virtual void processMenu();
 
 	//ÃÌº”’À∫≈  
 	void addPerson();

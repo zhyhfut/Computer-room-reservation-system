@@ -29,46 +29,41 @@ void Teacher::openMenu() //继承父类，在子类中实现
 	cout << "\t\t ----------------------------------\n";
 	cout << "请选择您的操作： " << endl;
 }
+
+void Teacher::processMenu()
+{
+	while (1)
+	{
+		this->openMenu(); //显示菜单
+		int select = 0; //选择
+		cin >> select; //接受选择
+		switch (select)
+		{
+			case 1: //查看所有预约
+			{
+				this->showAllOrder();
+				break;
+			}
+			case 2: //审核预约
+			{
+				this->checkOrder();
+				break;
+			}
+			default: //注销登录
+			{
+				cout << "注销成功" << endl;
+				system("pause");
+				system("cls");
+				return; //退出教师子菜单
+			}
+		}
+	}
+}
+
 //查看所有预约
 void Teacher::showAllOrder()
 {
-	OrderFile of; //创建预约文件对象
-	if (of.m_Size == 0)
-	{
-		cout << "无预约记录" << endl;
-		system("pause");
-		system("cls");
-		return;
-	}
-	for (int i = 0; i < of.m_Size; i++)
-	{
-		cout << i + 1 << "、 ";
-		cout << "预约日期： 周" << of.m_orderData[i]["date"];
-		cout << " 时段：" << (of.m_orderData[i]["interval"] == "1" ? "上午" : "下午");
-		cout << " 学号：" << of.m_orderData[i]["stuId"];
-		cout << " 姓名：" << of.m_orderData[i]["stuName"];
-		cout << " 机房：" << of.m_orderData[i]["roomId"];
-		string status = " 状态： ";  // 0 取消的预约   1 审核中   2 已预约 -1 预约失败
-		if (of.m_orderData[i]["status"] == "1")
-		{
-			status += "审核中";
-		}
-		else if (of.m_orderData[i]["status"] == "2")
-		{
-			status += "预约成功";
-		}
-		else if (of.m_orderData[i]["status"] == "-1")
-		{
-			status += "审核未通过，预约失败";
-		}
-		else
-		{
-			status += "预约已取消";
-		}
-		cout << status << endl;
-	}
-	system("pause");
-	system("cls");
+	dispAllOrder(); //调用全局函数显示所有预约
 }
 //审核预约
 void Teacher::checkOrder()
